@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: projektmlops-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - mlflow
+
+  mlflow:
+    image: python:3.11-slim
+    container_name: projektmlops-mlflow
+    working_dir: /mlflow
+    command: >
+      sh -c "pip install --no-cache-dir mlflow &&
+             mlflow ui --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow.db"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/mlflow

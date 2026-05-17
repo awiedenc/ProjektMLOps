@@ -1,0 +1,16 @@
+pandas
+numpy
+scikit-learn
+xgboost
+mlflow
+fastapi
+uvicorn
+pydantic
+matplotlib
+seaborn
+jupyter
+sqlalchemy
+psycopg2-binary
+mlflow-skinny
+xgboost
+skops
