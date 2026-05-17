@@ -21,6 +21,7 @@ ProjektMlops/
 ├── tests/                 # testy projektu
 ├── mlflow.db              # baza SQLite dla MLflow
 ├── run_all.py             # uruchomienie całego pipeline'u
+├── docker-compose.yml
 └── requirements.txt       # zależności projektu
 ```
 
@@ -104,6 +105,27 @@ uvicorn api.main:app --reload
 ```
 
 Po starcie aplikacji dokumentacja Swagger UI jest zwykle dostępna pod adresem [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs). Pozwala to testować endpointy bez pisania dodatkowego klienta. [web:392]
+
+## Docker
+
+Projekt można uruchomić także w kontenerach Docker. W repozytorium znajdują się pliki:
+- `Dockerfile` — obraz dla API FastAPI.
+- `docker-compose.yml` — uruchomienie API oraz MLflow.
+- `.dockerignore` — wykluczenie zbędnych plików z kontekstu budowania.
+
+Kontenery uruchamiają:
+- API FastAPI,
+- MLflow UI,
+- dostęp do lokalnych modeli i bazy przez volume.
+
+Uruchomienie:
+```bash
+docker compose up --build
+```
+
+Po starcie:
+- API: http://localhost:8000/docs
+- MLflow: http://localhost:5000
 
 ## Przykładowy przebieg testu API
 
@@ -208,11 +230,16 @@ Po wykonaniu `python run_all.py` w logach powinny pojawić się informacje o prz
 
 Projekt ma charakter badawczo-inżynierski. Łączy element porównania modeli klasyfikacyjnych z elementem wdrożeniowym, ponieważ obejmuje zarówno trening i ewaluację, jak i warstwę API oraz rejestrowanie eksperymentów w MLflow. 
 
-## Szybki start
+## Szybki start lokalnie i w Dockerze
 
+Lokalnie:
 ```bash
-pip install -r requirements.txt
 python run_all.py
 mlflow ui --backend-store-uri sqlite:///mlflow.db
 uvicorn api.main:app --reload
+```
+
+W Dockerze:
+```bash
+docker compose up --build
 ```
