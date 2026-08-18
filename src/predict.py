@@ -3,10 +3,11 @@ import pandas as pd
 
 from src.config import MODELS_DIR
 
-
 def predict_from_dict(model_filename: str, input_data: dict):
     model_path = MODELS_DIR / model_filename
-    model = sio.load(model_path, True)
+
+    untrusted_types = sio.get_untrusted_types(file=model_path)
+    model = sio.load(model_path, trusted=untrusted_types)
 
     df = pd.DataFrame([input_data])
     prediction = model.predict(df)[0]

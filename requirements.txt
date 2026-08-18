@@ -2,7 +2,7 @@ pandas
 numpy
 scikit-learn
 xgboost
-mlflow
+mlflow==3.11.1
 fastapi
 uvicorn
 pydantic
@@ -11,6 +11,5 @@ seaborn
 jupyter
 sqlalchemy
 psycopg2-binary
-mlflow-skinny
-xgboost
 skops
+shap
