@@ -170,19 +170,19 @@ Taki przebieg pozwala zobaczyć cały projekt od strony danych, treningu, monito
 
 ```json
 {
-  "age": 58,
-  "sex": 1,
-  "cp": 3,
-  "trestbps": 140,
-  "chol": 240,
-  "fbs": 0,
-  "restecg": 1,
-  "thalch": 150,
-  "exang": 0,
-  "oldpeak": 1.0,
-  "slope": 2,
-  "ca": 0,
-  "thal": 2
+  "age": "58",
+  "sex": "1",
+  "cp": "3",
+  "trestbps": "140",
+  "chol": "240",
+  "fbs": "0",
+  "restecg": "1",
+  "thalch": "150",
+  "exang": "0",
+  "oldpeak": "1.0",
+  "slope": "2",
+  "ca": "0",
+  "thal": "2"
 }
 ```
 
