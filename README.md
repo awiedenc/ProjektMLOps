@@ -29,7 +29,7 @@ Najważniejsze pliki źródłowe używane w projekcie to moduł przygotowania da
 
 ## Wymagania środowiskowe
 
-Projekt uruchamiany jest w środowisku Python z zależnościami instalowanymi z pliku `requirements.txt`. W rozmowie roboczej projektu wykorzystywane były między innymi: `pandas`, `numpy`, `scikit-learn`, `xgboost`, `mlflow`, `fastapi`, `uvicorn`, `pydantic`, `joblib`, `matplotlib`, `seaborn`, `sqlalchemy`, `psycopg2-binary` oraz `mlflow-skinny`.
+Projekt uruchamiany jest w środowisku Python z zależnościami instalowanymi z pliku `requirements.txt`. W rozmowie roboczej projektu wykorzystywane były między innymi: `pandas`, `numpy`, `scikit-learn`, `xgboost`, `mlflow`, `fastapi`, `uvicorn`, `pydantic`, `matplotlib`, `seaborn`, `sqlalchemy` oraz `psycopg2-binary`.
 
 Rekomendowana wersja Pythona to 3.10 lub 3.11, ponieważ taki zestaw zwykle dobrze współpracuje z FastAPI, MLflow i bibliotekami scikit-learn. Dokumentacja MLflow zaleca obecnie przejście z file store na backend bazodanowy, dlatego w projekcie używany jest backend SQLite.
 
@@ -64,8 +64,7 @@ Pipeline można uruchomić jednym poleceniem:
 ```bash
 python run_all.py
 ```
-
-Skrypt wykonuje dwa główne kroki: przygotowanie danych oraz trening modeli. W etapie przygotowania dane są czyszczone, kolumny są normalizowane, zbędne pola są usuwane, a zmienne docelowe są konwertowane do postaci binarnej zależnie od datasetu.
+Skrypt wykonuje cztery kroki: przygotowanie danych, trening modeli, analizę SHAP oraz generowanie krzywych ROC i macierzy pomyłek.
 
 W etapie treningu projekt dzieli dane na zbiory train, validation i test, buduje preprocessing, trenuje kilka modeli i zapisuje metryki jakości. W kodzie treningowym wykorzystywane są pipeline'y scikit-learn oraz logowanie wyników do MLflow.
 
@@ -81,7 +80,7 @@ Takie ujednolicenie celu klasyfikacji pozwala porównywać modele w podobnym sch
 
 ## Modele i ewaluacja
 
-W projekcie trenowanych jest kilka modeli klasyfikacyjnych, między innymi logistic regression, random forest, gradient boosting oraz MLP, a konfiguracja treningu jest wspólna dla wszystkich trzech problemów. Modele są zapisywane w katalogu `models/`, a metryki walidacyjne i testowe są wypisywane w logach oraz rejestrowane w MLflow.
+W projekcie trenowanych jest kilka modeli klasyfikacyjnych, między innymi logistic_regression, random_forest, xgboost, mlp_shallow oraz mlp_deep, a konfiguracja treningu jest wspólna dla wszystkich trzech problemów. Modele są zapisywane w katalogu `models/`, a metryki walidacyjne i testowe są wypisywane w logach oraz rejestrowane w MLflow.
 
 Do oceny używane są standardowe miary klasyfikacyjne: accuracy, precision, recall, F1 oraz ROC-AUC. Dzięki temu możliwa jest nie tylko ocena skuteczności ogólnej, ale również analiza jakości rozpoznawania klasy pozytywnej, co ma znaczenie w zadaniach medycznych.
 
@@ -134,7 +133,9 @@ Dla endpointu `/predict/diabetes` można wysłać dane pacjenta w formacie JSON 
 ```json
 {
   "prediction": 0,
-  "probability": 0.12766490819590692
+  "probability": 0.12766490819590692,
+  "model_name": "diabetes_mlp",
+  "dataset": "diabetes"
 }
 ```
 
@@ -186,7 +187,7 @@ Taki przebieg pozwala zobaczyć cały projekt od strony danych, treningu, monito
 }
 ```
 
-### `/predict/breast_cancer`
+### `/predict/breast-cancer`
 
 ```json
 {
